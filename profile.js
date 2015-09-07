@@ -11,16 +11,20 @@ function printError(error) {
 
 function get(username) {
 
+	// make the full url
 	var url = url_base + username + ".json";
-	// console.log(url);
-	// make the url 
-	// make http get request
+	
+	// the http.request and http.get function return an instance of the http.ClientRequest
 	var req = http.get(url, function(res) {
-			console.log(res.statusCode);
+			
+			// variable to hold all the data delivered over multiple 'chunks'
 			var body = "";
+
+			// repsonse is a readable stream theat emits events - instance of http.IncomingMessage
 			res.on('data', function(chunk) {
 				body += chunk
-			})	
+			});
+				
 			res.on('end', function() { 
 				// if the status code is 200
 				if (res.statusCode === 200) {
@@ -40,7 +44,7 @@ function get(username) {
 				}
 			})
 		})
-	
+
 	req.on('error', printError); // this is cool
 };
 	// parse the response
